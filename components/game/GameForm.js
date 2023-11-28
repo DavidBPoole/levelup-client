@@ -8,7 +8,7 @@ import {
 import { useAuth } from '../../utils/context/authContext';
 
 const initialState = {
-  skillLevel: 0,
+  skillLevel: 1,
   numberOfPlayers: 0,
   title: '',
   maker: '',

@@ -35,6 +35,13 @@ const getSingleGame = (id) => new Promise((resolve, reject) => {
 //     .catch(reject);
 // });
 
+// Chapter 11 default CREATE Game function:
+// const createGame = (game) => new Promise((resolve, reject) => {
+//   fetch("", {})
+//     .then()
+//     .catch();
+// });
+
 const createGame = async (game, token) => {
   try {
     const response = await fetch(`${clientCredentials.databaseURL}/games`, {
@@ -71,6 +78,13 @@ const updateGame = (game, uid) => new Promise((resolve, reject) => {
     .then((data) => resolve(data))
     .catch(reject);
 });
+
+// Chapter 11 default GET Game Types function:
+// const getGameTypes = () => new Promise((resolve, reject) => {
+//   fetch("", {})
+//     .then()
+//     .catch();
+// });
 
 const getGameTypes = () => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/gametypes`)
