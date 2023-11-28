@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
 import GameCard from '../components/game/GameCard';
-import { getGames } from '../api/gameData';
+import { getGames } from '../utils/data/gameData';
 
 function Home() {
   const [games, setGames] = useState([]);

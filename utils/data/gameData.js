@@ -1,4 +1,4 @@
-import { clientCredentials } from '../utils/client';
+import { clientCredentials } from '../client';
 
 const getGames = (uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/games`, {
@@ -42,28 +42,43 @@ const getSingleGame = (id) => new Promise((resolve, reject) => {
 //     .catch();
 // });
 
-const createGame = async (game, token) => {
-  try {
-    const response = await fetch(`${clientCredentials.databaseURL}/games`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      body: JSON.stringify(game),
-    });
+// Old 11/27/23 CREATE Game:
+// const createGame = async (game, token) => {
+//   try {
+//     const response = await fetch(`${clientCredentials.databaseURL}/games`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: token,
+//       },
+//       body: JSON.stringify(game),
+//     });
 
-    console.warn('Response status:', response.status);
+//     console.warn('Response status:', response.status);
 
-    if (response.status === 201) {
-      // Handle successful creation
-    } else {
-      // Handle other cases (e.g., log error details)
-    }
-  } catch (error) {
-    console.error('Error creating game:', error);
-  }
-};
+//     if (response.status === 201) {
+//       // Handle successful creation
+//     } else {
+//       // Handle other cases (e.g., log error details)
+//     }
+//   } catch (error) {
+//     console.error('Error creating game:', error);
+//   }
+// };
+
+const createGame = (game, uid) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/games`, {
+    method: 'POST',
+    body: JSON.stringify(game),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${uid}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
 
 const updateGame = (game, uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/games/${game.id}`, {

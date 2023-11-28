@@ -1,4 +1,4 @@
-import { clientCredentials } from '../utils/client';
+import { clientCredentials } from '../client';
 
 const getEvents = (uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/events`, {

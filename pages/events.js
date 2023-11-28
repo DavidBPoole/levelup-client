@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useRouter } from 'next/router';
-import { getEvents } from '../api/eventData';
+import { getEvents } from '../utils/data/eventData';
 import EventCard from '../components/event/EventCard';
 import { useAuth } from '../utils/context/authContext';
 

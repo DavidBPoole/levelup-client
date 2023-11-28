@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
-import { createEvent, getSingleEvent, updateEvent } from '../../api/eventData';
-import { getGames } from '../../api/gameData';
+import { createEvent, getSingleEvent, updateEvent } from '../../utils/data/eventData';
+import { getGames } from '../../utils/data/gameData';
 import { useAuth } from '../../utils/context/authContext';
 
 const initialState = {

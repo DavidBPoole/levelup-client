@@ -2,7 +2,7 @@ import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { deleteEvent, joinEvent, leaveEvent } from '../../api/eventData';
+import { deleteEvent, joinEvent, leaveEvent } from '../../utils/data/eventData';
 import { useAuth } from '../../utils/context/authContext';
 
 const EventCard = ({
