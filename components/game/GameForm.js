@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button, FloatingLabel, Form } from 'react-bootstrap';
 import {
   createGame, getGameTypes, getSingleGame, updateGame,
-} from '../../api/gameData';
+} from '../../utils/data/gameData';
 import { useAuth } from '../../utils/context/authContext';
 
 const initialState = {
@@ -71,7 +71,7 @@ const GameForm = ({ obj }) => {
         Authorization: `${user.uid}`,
       });
 
-      updateGame(game, user.uid).then(() => router.push('/'));
+      updateGame(game, user.uid).then(() => router.push('/games'));
     } else {
       const game = {
         maker: currentGame.maker,
@@ -88,7 +88,7 @@ const GameForm = ({ obj }) => {
         Authorization: `${user.uid}`,
       });
 
-      createGame(game, user.uid).then(() => router.push('/'));
+      createGame(game, user.uid).then(() => router.push('/games'));
     }
   };
 

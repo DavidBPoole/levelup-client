@@ -1,4 +1,4 @@
-import { clientCredentials } from '../utils/client';
+import { clientCredentials } from '../client';
 
 const getGames = (uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/games`, {
@@ -35,28 +35,50 @@ const getSingleGame = (id) => new Promise((resolve, reject) => {
 //     .catch(reject);
 // });
 
-const createGame = async (game, token) => {
-  try {
-    const response = await fetch(`${clientCredentials.databaseURL}/games`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token,
-      },
-      body: JSON.stringify(game),
-    });
+// Chapter 11 default CREATE Game function:
+// const createGame = (game) => new Promise((resolve, reject) => {
+//   fetch("", {})
+//     .then()
+//     .catch();
+// });
 
-    console.warn('Response status:', response.status);
+// Old 11/27/23 CREATE Game:
+// const createGame = async (game, token) => {
+//   try {
+//     const response = await fetch(`${clientCredentials.databaseURL}/games`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Authorization: token,
+//       },
+//       body: JSON.stringify(game),
+//     });
 
-    if (response.status === 201) {
-      // Handle successful creation
-    } else {
-      // Handle other cases (e.g., log error details)
-    }
-  } catch (error) {
-    console.error('Error creating game:', error);
-  }
-};
+//     console.warn('Response status:', response.status);
+
+//     if (response.status === 201) {
+//       // Handle successful creation
+//     } else {
+//       // Handle other cases (e.g., log error details)
+//     }
+//   } catch (error) {
+//     console.error('Error creating game:', error);
+//   }
+// };
+
+const createGame = (game, uid) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/games`, {
+    method: 'POST',
+    body: JSON.stringify(game),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${uid}`,
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
 
 const updateGame = (game, uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/games/${game.id}`, {
@@ -71,6 +93,13 @@ const updateGame = (game, uid) => new Promise((resolve, reject) => {
     .then((data) => resolve(data))
     .catch(reject);
 });
+
+// Chapter 11 default GET Game Types function:
+// const getGameTypes = () => new Promise((resolve, reject) => {
+//   fetch("", {})
+//     .then()
+//     .catch();
+// });
 
 const getGameTypes = () => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/gametypes`)
