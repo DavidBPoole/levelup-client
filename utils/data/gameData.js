@@ -20,6 +20,18 @@ const getSingleGame = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+// const getSingleGame = (id) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/games/${id}`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   })
+//     .then((response) => response.json())
+//     .then((data) => resolve(data))
+//     .catch(reject);
+// });
+
 // const createGame = (game, uid) => new Promise((resolve, reject) => {
 //   console.warn('Creating game with gameType:', game.gameType);
 //   fetch(`${clientCredentials.databaseURL}/games`, {
@@ -66,18 +78,37 @@ const getSingleGame = (id) => new Promise((resolve, reject) => {
 //   }
 // };
 
-const createGame = (game, uid) => new Promise((resolve, reject) => {
+// const createGame = (game, uid) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/games`, {
+//     method: 'POST',
+//     body: JSON.stringify(game),
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `${uid}`,
+//     },
+//   })
+//     .then((response) => response.json())
+//     .then((data) => resolve(data))
+//     .catch(reject);
+// });
+
+const createGame = (game) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/games`, {
     method: 'POST',
-    body: JSON.stringify(game),
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `${uid}`,
+      // Authorization: `${uid}`,
     },
+    body: JSON.stringify(game),
   })
     .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
+    .then((data) => {
+      resolve(data);
+    })
+    .catch((error) => {
+      console.error('Create Game Error:', error);
+      reject(error);
+    });
 });
 
 const updateGame = (game, uid) => new Promise((resolve, reject) => {
