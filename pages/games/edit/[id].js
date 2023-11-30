@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import GameForm from '../../../components/game/GameForm';
-import { getSingleGame } from '../../../api/gameData';
+import { getSingleGame } from '../../../utils/data/gameData';
 
 export default function EditGame() {
   const [editGame, setEditGame] = useState({});

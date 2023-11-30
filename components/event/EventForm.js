@@ -61,7 +61,6 @@ const EventForm = ({ obj }) => {
       updateEvent(event).then(() => router.push('/events'));
     } else {
       const event = {
-        id: currentEvent.id,
         description: currentEvent.description,
         date: currentEvent.date,
         time: currentEvent.time,
