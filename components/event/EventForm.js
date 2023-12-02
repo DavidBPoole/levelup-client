@@ -78,11 +78,11 @@ const EventForm = ({ eventObj }) => {
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Event Date</Form.Label>
-          <Form.Control name="date" placeholder="ex. 2023-11-17" required value={currentEvent.date} onChange={handleChange} />
+          <Form.Control name="date" placeholder="ex. date format: 2023-11-17" required value={currentEvent.date} onChange={handleChange} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Event Time</Form.Label>
-          <Form.Control name="time" placeholder="ex. 12:00" required value={currentEvent.time} onChange={handleChange} />
+          <Form.Control name="time" placeholder="ex. time format: 12:00" required value={currentEvent.time} onChange={handleChange} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Event Game</Form.Label>

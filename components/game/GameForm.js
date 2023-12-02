@@ -76,19 +76,19 @@ const GameForm = ({ gameObj }) => {
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Game Title</Form.Label>
-          <Form.Control name="title" placeholder="ex. Game name" required value={currentGame.title} onChange={handleChange} />
+          <Form.Control name="title" placeholder="Game Name" required value={currentGame.title} onChange={handleChange} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Game Maker</Form.Label>
-          <Form.Control name="maker" placeholder="ex. Game creator" required value={currentGame.maker} onChange={handleChange} />
+          <Form.Control name="maker" placeholder="Name" required value={currentGame.maker} onChange={handleChange} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Number of Players</Form.Label>
-          <Form.Control name="numberOfPlayers" placeholder="ex. 7" required value={currentGame.numberOfPlayers} onChange={handleChange} />
+          <Form.Control name="numberOfPlayers" required value={currentGame.numberOfPlayers} onChange={handleChange} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Skill Level</Form.Label>
-          <Form.Control name="skillLevel" placeholder="ex. 2" required value={currentGame.skillLevel} onChange={handleChange} />
+          <Form.Control name="skillLevel" required value={currentGame.skillLevel} onChange={handleChange} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Game Type</Form.Label>
