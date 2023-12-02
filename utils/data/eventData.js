@@ -34,7 +34,6 @@ const getSingleEvent = (id) => new Promise((resolve, reject) => {
 //     .catch(reject);
 // });
 
-// alternate code createEvent code 2:
 const createEvent = (event) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/events`, {
     method: 'POST',
@@ -66,7 +65,6 @@ const createEvent = (event) => new Promise((resolve, reject) => {
 //     .catch(reject);
 // });
 
-// alternate updateEvent code 2:\
 const updateEvent = (payload, uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/events/${payload.id}`, {
     method: 'PUT',
@@ -91,7 +89,6 @@ const updateEvent = (payload, uid) => new Promise((resolve, reject) => {
 //     .catch(reject);
 // });
 
-// alternate deleteEvent code 2:
 const deleteEvent = (id) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/events/${id}`, {
     method: 'DELETE',
@@ -118,7 +115,6 @@ const deleteEvent = (id) => new Promise((resolve, reject) => {
 //     .catch(reject);
 // });
 
-// alternate joinEvent code 2:
 const joinEvent = (id, uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/events/${id}/signup`, {
     method: 'POST',
@@ -132,15 +128,6 @@ const joinEvent = (id, uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// incomplete leaveEvent code:
-// const leaveEvent = (eventId, uid) => fetch(`http://localhost:8000/events/${eventId}/leave`, {
-//   method: 'DELETE',
-//   headers: {
-//     Authorization: `${uid}`,
-//   },
-// });
-
-// alternate leaveEvent code 2:
 const leaveEvent = (id, uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/events/${id}/leave`, {
     method: 'DELETE',
@@ -159,7 +146,6 @@ const leaveEvent = (id, uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// alternate export code 2:
 export {
   getEvents,
   getSingleEvent,
