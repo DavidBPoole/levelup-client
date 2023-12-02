@@ -1,5 +1,4 @@
 import { clientCredentials } from '../client';
-// Requires gamer card and page to be setup before calling function:
 
 const getGamers = (uid) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/gamers`, {

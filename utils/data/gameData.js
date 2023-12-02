@@ -1,13 +1,22 @@
 import { clientCredentials } from '../client';
 
-const getGames = (uid) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/games`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `${uid}`,
-    },
-  })
+// This getGames code should only fetch games belonging to logged in user:
+// const getGames = (uid) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/games`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `${uid}`,
+//     },
+//   })
+//     .then((response) => response.json())
+//     .then(resolve)
+//     .catch(reject);
+// });
+
+// alternate getGames code 2:
+const getGames = () => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/games`)
     .then((response) => response.json())
     .then(resolve)
     .catch(reject);
@@ -111,17 +120,31 @@ const createGame = (game) => new Promise((resolve, reject) => {
     });
 });
 
-const updateGame = (game, uid) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/games/${game.id}`, {
+// const updateGame = (game, uid) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/games/${game.id}`, {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `${uid}`,
+//     },
+//     body: JSON.stringify(game),
+//   })
+//     // .then((response) => response.json())
+//     .then((data) => resolve(data))
+//     .catch(reject);
+// });
+
+// alternate updateGame code 2:
+const updateGame = (payload, uid) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/games/${payload.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `${uid}`,
     },
-    body: JSON.stringify(game),
+    body: JSON.stringify(payload),
   })
-    // .then((response) => response.json())
-    .then((data) => resolve(data))
+    .then(resolve)
     .catch(reject);
 });
 
@@ -132,28 +155,60 @@ const updateGame = (game, uid) => new Promise((resolve, reject) => {
 //     .catch();
 // });
 
-const getGameTypes = () => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/gametypes`)
-    .then((response) => response.json())
-    .then((data) => {
-      console.warn('Fetched game types:', data);
-      resolve(data);
+// const deleteGame = (id) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/games/${id}`, {
+//     method: 'DELETE',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   })
+//     .then((data) => resolve((data)))
+//     .catch(reject);
+// });
+
+// alternate deleteGame code 2:
+const deleteGame = (id) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/games/${id}`, {
+    method: 'DELETE',
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      resolve();
     })
     .catch(reject);
 });
 
-const deleteGame = (id) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/games/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((data) => resolve((data)))
+// const getGameTypes = () => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/gametypes`)
+//     .then((response) => response.json())
+//     .then((data) => {
+//       console.warn('Fetched game types:', data);
+//       resolve(data);
+//     })
+//     .catch(reject);
+// });
+
+// alternate getGameTypes code 2:
+const getGameTypes = () => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/gametypes`)
+    .then((response) => response.json())
+    .then(resolve)
     .catch(reject);
 });
 
 // eslint-disable-next-line import/prefer-default-export
+// export {
+//   getGames, createGame, getGameTypes, updateGame, getSingleGame, deleteGame,
+// };
+
+// alternate export code 2:
 export {
-  getGames, createGame, getGameTypes, updateGame, getSingleGame, deleteGame,
+  getGames,
+  getSingleGame,
+  createGame,
+  updateGame,
+  deleteGame,
+  getGameTypes,
 };
