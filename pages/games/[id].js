@@ -49,11 +49,11 @@ function SingleGame() {
 
   return (
     <article className="single-game">
-      <h1>Game</h1>
-      <p>Title: {singleGame.title}</p>
-      <p>By: {singleGame.maker}</p>
-      <p>Number of Players: {singleGame.number_of_players}</p>
-      <p>Skill Level: {singleGame.skill_level}</p>
+      <b><h1>Game</h1></b>
+      <b><p>Title: {singleGame.title}</p></b>
+      <b><p>By: {singleGame.maker}</p></b>
+      <b><p>Number of Players: {singleGame.number_of_players}</p></b>
+      <b><p>Skill Level: {singleGame.skill_level}</p></b>
     </article>
   );
 }

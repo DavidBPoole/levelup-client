@@ -198,7 +198,7 @@ import { useAuth } from '../../utils/context/authContext';
 
 const initialState = {
   skillLevel: 1,
-  numberOfPlayers: 0,
+  numberOfPlayers: 1,
   title: '',
   maker: '',
   gameTypeId: 0,

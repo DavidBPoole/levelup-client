@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { clientCredentials } from '../client';
 
 const getGamers = (uid) => new Promise((resolve, reject) => {
@@ -13,5 +14,4 @@ const getGamers = (uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export { getGamers };

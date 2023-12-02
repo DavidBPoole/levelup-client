@@ -159,11 +159,6 @@ const leaveEvent = (id, uid) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// eslint-disable-next-line import/prefer-default-export
-// export {
-//   getEvents, createEvent, getSingleEvent, updateEvent, deleteEvent, joinEvent, leaveEvent,
-// };
-
 // alternate export code 2:
 export {
   getEvents,

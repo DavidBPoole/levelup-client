@@ -196,19 +196,12 @@ export default function EventCard({ eventObj, onUpdate }) {
   return (
     <>
       <Card className="text-center">
-        <Card.Header>{eventObj.description}</Card.Header>
+        <Card.Header style={{ fontSize: 20 }}><b>{eventObj.description}</b></Card.Header>
         <Card.Body>
-          <Card.Title>By: {eventObj.organizer.bio}</Card.Title>
-          <Card.Title>When: {eventObj.date} at {eventObj.time}</Card.Title>
-          <Card.Text>Game: {eventObj.game.title}</Card.Text>
-          {/* Added to display joined users - currently not working */}
-          {/* {eventObj.joined_users && eventObj.joined_users.length > 0 && (
-          <Card.Text>
-            Joined Users: {eventObj.joined_users.map((joinedUser, index) => (
-              <span key={index}>{joinedUser.gamer.uid}</span>
-          ))}
-          </Card.Text>
-          )} */}
+          <Card.Title>Organizer: {eventObj.organizer.bio}</Card.Title>
+          <Card.Title>Date: {eventObj.date}</Card.Title>
+          <Card.Title>Time: {eventObj.time}</Card.Title>
+          <Card.Text><b>Game: {eventObj.game.title}</b></Card.Text>
         </Card.Body>
         <Button
           onClick={() => {
@@ -251,8 +244,7 @@ EventCard.propTypes = {
       bio: PropTypes.string.isRequired,
     }),
     joined: PropTypes.bool.isRequired,
-    // added to display joined users on DOM - currently not working:
-    // joined_users: PropTypes.arrayOf(PropTypes.object),
+
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
 };

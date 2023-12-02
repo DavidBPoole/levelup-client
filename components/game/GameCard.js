@@ -104,12 +104,12 @@ export default function GameCard({ gameObj, onUpdate }) {
   return (
     <>
       <Card className="text-center">
-        <Card.Header>{gameObj.title}</Card.Header>
+        <Card.Header style={{ fontSize: 20 }}><b>{gameObj.title}</b></Card.Header>
         <Card.Body>
-          <Card.Title>By: {gameObj.maker}</Card.Title>
-          <Card.Text>{gameObj.number_of_players} players needed</Card.Text>
+          <Card.Title>Creator: {gameObj.maker}</Card.Title>
+          <Card.Text><b>{gameObj.number_of_players} Player Requirement</b></Card.Text>
         </Card.Body>
-        <Card.Footer className="text-muted">Skill Level: {gameObj.skill_level}</Card.Footer>
+        <Card.Footer className="text-muted"><b>Skill Level: {gameObj.skill_level}</b></Card.Footer>
         <Button
           onClick={() => {
             router.push(`/games/edit/${gameObj.id}`);

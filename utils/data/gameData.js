@@ -198,11 +198,6 @@ const getGameTypes = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-// eslint-disable-next-line import/prefer-default-export
-// export {
-//   getGames, createGame, getGameTypes, updateGame, getSingleGame, deleteGame,
-// };
-
 // alternate export code 2:
 export {
   getGames,
