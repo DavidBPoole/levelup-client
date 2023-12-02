@@ -1,8 +1,15 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import TimePicker from 'react-time-picker';
+import DatePicker from 'react-date-picker';
 import { getGames } from '../../utils/data/gameData';
+import 'react-date-picker/dist/DatePicker.css';
+import 'react-calendar/dist/Calendar.css';
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
 import { createEvent, updateEvent } from '../../utils/data/eventData';
 import { useAuth } from '../../utils/context/authContext';
 
@@ -43,6 +50,26 @@ const EventForm = ({ eventObj }) => {
     }));
   };
 
+  const handleDateChange = (e) => {
+    const date = new Date(e);
+    // const offset = date.getTimezoneOffset();
+    // const todayDate = new Date(date.getTime() + (offset * 60 * 1000));
+    // setEventDate(date.toISOString().split('T')[0]);
+    // setFormDate(todayDate);
+    setCurrentEvent((prevState) => ({
+      ...prevState,
+      date: date.toISOString().split('T')[0],
+    }));
+  };
+
+  const handleTimeChange = (e) => {
+    // setEventTime(`${e}:00`);
+    setCurrentEvent((prevState) => ({
+      ...prevState,
+      time: e ? `${e}:00` : '',
+    }));
+  };
+
   const handleSubmit = (e) => {
     // Prevent form from being submitted
     e.preventDefault();
@@ -76,14 +103,24 @@ const EventForm = ({ eventObj }) => {
           <Form.Label>Event Description</Form.Label>
           <Form.Control name="description" placeholder="Enter Event Name Here" required value={currentEvent.description} onChange={handleChange} />
         </Form.Group>
-        <Form.Group className="mb-3">
+        {/* <Form.Group className="mb-3">
           <Form.Label>Event Date</Form.Label>
           <Form.Control name="date" placeholder="ex. date format: 2023-11-17" required value={currentEvent.date} onChange={handleChange} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Event Time</Form.Label>
           <Form.Control name="time" placeholder="ex. time format: 12:00" required value={currentEvent.time} onChange={handleChange} />
+        </Form.Group> */}
+        <Form.Group>
+          <DatePicker onChange={handleDateChange} name="date" value={currentEvent.date} format="yyyy-MM-dd" required />
         </Form.Group>
+        <Form.Group>
+          <TimePicker required onChange={handleTimeChange} value={currentEvent.time} disableClock />
+        </Form.Group>
+        {/* <Form.Group className="mb-3">
+          <Form.Label>Event Time</Form.Label>
+          <Form.Control name="time" placeholder="ex. time format: 12:00" required value={currentEvent.time} onChange={handleChange} />
+        </Form.Group> */}
         <Form.Group className="mb-3">
           <Form.Label>Event Game</Form.Label>
           <Form.Select
