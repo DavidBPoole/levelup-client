@@ -20,65 +20,138 @@ const getSingleEvent = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const createEvent = (event, uid) => new Promise((resolve, reject) => {
+// const createEvent = (event, uid) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/events`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `${uid}`,
+//     },
+//     body: JSON.stringify(event),
+//   })
+//     .then((response) => response.json())
+//     .then((data) => resolve(data))
+//     .catch(reject);
+// });
+
+const createEvent = (event) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/events`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `${uid}`,
     },
     body: JSON.stringify(event),
   })
     .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
+    .then((data) => {
+      resolve(data);
+    })
+    .catch((error) => {
+      console.error('Create Game Error:', error);
+      reject(error);
+    });
 });
 
-const updateEvent = (event) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/events/${event.id}`, {
+// const updateEvent = (event) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/events/${event.id}`, {
+//     method: 'PUT',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(event),
+//   })
+//     // .then((response) => response.json())
+//     .then((data) => resolve(data))
+//     .catch(reject);
+// });
+
+const updateEvent = (payload, uid) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/events/${payload.id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `${uid}`,
     },
-    body: JSON.stringify(event),
+    body: JSON.stringify(payload),
   })
-    // .then((response) => response.json())
-    .then((data) => resolve(data))
+    .then(resolve)
     .catch(reject);
 });
+
+// const deleteEvent = (id) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/events/${id}`, {
+//     method: 'DELETE',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   })
+//     .then((data) => resolve((data)))
+//     .catch(reject);
+// });
 
 const deleteEvent = (id) => new Promise((resolve, reject) => {
   fetch(`${clientCredentials.databaseURL}/events/${id}`, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
   })
-    .then((data) => resolve((data)))
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('NETWORK RESPONSE NOT OK');
+      }
+      resolve();
+    })
     .catch(reject);
 });
 
-const joinEvent = (eventId, uid) => new Promise((resolve, reject) => {
-  fetch(`${clientCredentials.databaseURL}/events/${eventId}/signup`, {
+// const joinEvent = (eventId, uid) => new Promise((resolve, reject) => {
+//   fetch(`${clientCredentials.databaseURL}/events/${eventId}/signup`, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `${uid}`,
+//     },
+//   })
+//     .then((response) => response.json())
+//     .then((data) => resolve(data))
+//     .catch(reject);
+// });
+
+const joinEvent = (id, uid) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/events/${id}/signup`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `${uid}`,
     },
+    body: JSON.stringify({ userId: uid }),
   })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
+    .then((response) => resolve(response.json()))
     .catch(reject);
 });
 
-const leaveEvent = (eventId, uid) => fetch(`http://localhost:8000/events/${eventId}/leave`, {
-  method: 'DELETE',
-  headers: {
-    Authorization: `${uid}`,
-  },
+const leaveEvent = (id, uid) => new Promise((resolve, reject) => {
+  fetch(`${clientCredentials.databaseURL}/events/${id}/leave`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${uid}`,
+    },
+    body: JSON.stringify({ userId: uid }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      resolve();
+    })
+    .catch(reject);
 });
 
-// eslint-disable-next-line import/prefer-default-export
 export {
-  getEvents, createEvent, getSingleEvent, updateEvent, deleteEvent, joinEvent, leaveEvent,
+  getEvents,
+  getSingleEvent,
+  createEvent,
+  updateEvent,
+  deleteEvent,
+  joinEvent,
+  leaveEvent,
 };

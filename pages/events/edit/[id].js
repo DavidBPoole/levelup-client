@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import EventForm from '../../../components/event/EventForm';
 import { getSingleEvent } from '../../../utils/data/eventData';
+import EventForm from '../../../components/event/EventForm';
 
 export default function EditEvent() {
   const [editEvent, setEditEvent] = useState({});
   const router = useRouter();
+
   const { id } = router.query;
 
   useEffect(() => {
@@ -13,9 +14,8 @@ export default function EditEvent() {
   }, [id]);
 
   return (
-    <div>
-      <h2>Edit Event</h2>
-      <EventForm obj={editEvent} />
-    </div>
+    <>
+      <EventForm eventObj={editEvent} />
+    </>
   );
 }

@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import GameForm from '../../../components/game/GameForm';
 import { getSingleGame } from '../../../utils/data/gameData';
+import GameForm from '../../../components/game/GameForm';
 
 export default function EditGame() {
   const [editGame, setEditGame] = useState({});
   const router = useRouter();
+
   const { id } = router.query;
 
   useEffect(() => {
@@ -13,9 +14,8 @@ export default function EditGame() {
   }, [id]);
 
   return (
-    <div>
-      <h2>Edit Game</h2>
-      <GameForm obj={editGame} />
-    </div>
+    <>
+      <GameForm gameObj={editGame} />
+    </>
   );
 }

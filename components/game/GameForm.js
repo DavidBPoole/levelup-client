@@ -1,118 +1,39 @@
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { Button, FloatingLabel, Form } from 'react-bootstrap';
-import {
-  createGame, getGameTypes,
-} from '../../utils/data/gameData';
-// import { useAuth } from '../../utils/context/authContext';
-
-// const initialState = {
-//   skillLevel: 0,
-//   numberOfPlayers: 0,
-//   title: '',
-//   maker: '',
-//   gameType: 0,
-// };
-
-// const GameForm = ({ obj }) => {
-//   const [gameTypes, setGameTypes] = useState([]);
-//   const [currentGame, setCurrentGame] = useState(initialState);
-//   const router = useRouter();
-//   const { id } = router.query;
-//   const { user } = useAuth();
-
-//   useEffect(() => {
-//     getGameTypes().then(setGameTypes);
-
-//     if (obj.id) {
-//       getSingleGame(id).then((gameObj) => {
-//         setCurrentGame((prevState) => ({
-//           ...prevState,
-//           id: gameObj.id,
-//           skillLevel: gameObj.skill_level,
-//           numberOfPlayers: gameObj.number_of_players,
-//           title: gameObj.title,
-//           maker: gameObj.maker,
-//           gameType: gameObj.game_type.id,
-//         }));
-//         console.warn(obj);
-//       });
-//     }
-//   }, [obj, id]);
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setCurrentGame((prevState) => ({
-//       ...prevState,
-//       [name]: value,
-//     }));
-//   };
-
-//   const handleSubmit = (e) => {
-//     // Prevent form from being submitted
-//     e.preventDefault();
-//     console.warn('Submitting data:', currentGame);
-
-//     if (currentGame.id) {
-//       const game = {
-//         id: currentGame.id,
-//         maker: currentGame.maker,
-//         title: currentGame.title,
-//         numberOfPlayers: Number(currentGame.number_of_players),
-//         skillLevel: Number(currentGame.skillLevel),
-//         gameType: Number(currentGame.gameType),
-//         gamer: user.uid,
-//       };
-
-//       // Log the headers just before making the fetch request
-//       console.warn('Request Headers:', {
-//         'Content-Type': 'application/json',
-//         Authorization: `${user.uid}`,
-//       });
-
-//       updateGame(game, user.uid).then(() => router.push('/games'));
-//     } else {
-//       const game = {
-//         maker: currentGame.maker,
-//         title: currentGame.title,
-//         numberOfPlayers: Number(currentGame.numberOfPlayers),
-//         skillLevel: Number(currentGame.skillLevel),
-//         gameType: Number(currentGame.gameType),
-//         gamer: user.uid,
-//       };
-
-//       // Log the headers just before making the fetch request
-//       console.warn('Request Headers:', {
-//         'Content-Type': 'application/json',
-//         Authorization: `${user.uid}`,
-//       });
-
-//       createGame(game, user.uid).then(() => router.push('/games'));
-//     }
-//   };
+import { Button, Form } from 'react-bootstrap';
+import { createGame, getGameTypes, updateGame } from '../../utils/data/gameData';
+import { useAuth } from '../../utils/context/authContext';
 
 const initialState = {
   skillLevel: 1,
-  numberOfPlayers: 0,
+  numberOfPlayers: 1,
   title: '',
   maker: '',
-  gameType: 0,
+  gameTypeId: 0,
 };
 
-const GameForm = ({ user }) => {
+const GameForm = ({ gameObj }) => {
   const [gameTypes, setGameTypes] = useState([]);
-  /*
-  Since the input fields are bound to the values of
-  the properties of this state variable, you need to
-  provide some default values.
-  */
   const [currentGame, setCurrentGame] = useState(initialState);
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
     getGameTypes().then(setGameTypes);
-  }, [user]);
+
+    if (gameObj.id) {
+      setCurrentGame({
+        id: gameObj.id,
+        maker: gameObj.maker,
+        title: gameObj.title,
+        numberOfPlayers: gameObj.number_of_players,
+        skillLevel: gameObj.skill_level,
+        gameType: gameObj.game_type?.id,
+        userId: user.uid,
+      });
+    }
+  }, [gameObj, user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -126,111 +47,88 @@ const GameForm = ({ user }) => {
     // Prevent form from being submitted
     e.preventDefault();
 
-    const game = {
-      maker: currentGame.maker,
-      title: currentGame.title,
-      numberOfPlayers: Number(currentGame.numberOfPlayers),
-      skillLevel: Number(currentGame.skillLevel),
-      gameType: Number(currentGame.gameType),
-      gamer: user.uid,
-    };
-
-    // Send POST request to your API
-    createGame(game).then(() => router.push('/games'));
+    if (gameObj.id) {
+      const update = {
+        id: gameObj.id,
+        maker: currentGame.maker,
+        title: currentGame.title,
+        numberOfPlayers: Number(currentGame.numberOfPlayers),
+        skillLevel: Number(currentGame.skillLevel),
+        gameType: Number(currentGame.gameType),
+        userId: user.uid,
+      };
+      updateGame(update, user.uid).then(() => router.push(`/games/${gameObj.id}`));
+    } else {
+      const game = {
+        maker: currentGame.maker,
+        title: currentGame.title,
+        numberOfPlayers: Number(currentGame.numberOfPlayers),
+        skillLevel: Number(currentGame.skillLevel),
+        gameType: Number(currentGame.gameTypeId),
+        userId: user.uid,
+      };
+      createGame(game, user.uid).then(() => router.push('/games'));
+    }
   };
 
   return (
     <>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
-          <Form.Label>Title</Form.Label>
-          <Form.Control name="title" required value={currentGame.title} onChange={handleChange} />
+          <Form.Label>Game Title</Form.Label>
+          <Form.Control name="title" placeholder="Game Name" required value={currentGame.title} onChange={handleChange} />
         </Form.Group>
-
         <Form.Group className="mb-3">
-          <Form.Label>Maker</Form.Label>
-          <Form.Control name="maker" required value={currentGame.maker} onChange={handleChange} />
+          <Form.Label>Game Maker</Form.Label>
+          <Form.Control name="maker" placeholder="Name" required value={currentGame.maker} onChange={handleChange} />
         </Form.Group>
-
         <Form.Group className="mb-3">
           <Form.Label>Number of Players</Form.Label>
           <Form.Control name="numberOfPlayers" required value={currentGame.numberOfPlayers} onChange={handleChange} />
         </Form.Group>
-
         <Form.Group className="mb-3">
           <Form.Label>Skill Level</Form.Label>
           <Form.Control name="skillLevel" required value={currentGame.skillLevel} onChange={handleChange} />
         </Form.Group>
-
-        {/* <Form.Group controlId="formGridState">
+        <Form.Group className="mb-3">
           <Form.Label>Game Type</Form.Label>
-          <Form.Select defaultValue="Choose..." name="gameTypeId" onChange={handleChange}>
-            <option value="">Choose...</option>
-            {
-                  gameTypes.map((type) => (
-                    <>
-                      <option
-                        key={type.id}
-                        value={type.id}
-                      >
-                        {type.label}
-                      </option>
-                    </>
-                  ))
-                }
-          </Form.Select>
-        </Form.Group> */}
-
-        <FloatingLabel controlId="floatingSelect" label="GameType">
           <Form.Select
-            aria-label="Game Type"
-            name="gameType"
-            onChange={handleChange}
-            className="mb-3"
-            value={currentGame.gameType}
+            name="gameTypeId"
             required
+            value={currentGame.gameTypeId}
+            onChange={handleChange}
           >
-            <option value="">Select a Game Type</option>
-            {
-            gameTypes.map((type) => (
-              <option
-                key={type.id}
-                value={type.id}
-              >
-                {type.label}
-              </option>
-            ))
-          }
+            <option value="">Select a game type</option>
+            {Array.isArray(gameTypes)
+              && gameTypes.map((gameType) => (
+                <option key={gameType.id} value={gameType.id}>
+                  {gameType.label}
+                </option>
+              ))}
           </Form.Select>
-        </FloatingLabel>
-
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        </Form.Group>
+        <Button variant="primary" type="submit"> {gameObj.id ? 'Update' : 'Create'} Game </Button>
       </Form>
     </>
   );
 };
 
 GameForm.propTypes = {
-  obj: PropTypes.shape({
+  gameObj: PropTypes.shape({
     id: PropTypes.number,
+    number_of_players: PropTypes.number,
+    skill_level: PropTypes.number,
     maker: PropTypes.string,
     title: PropTypes.string,
-    numberOfPlayers: PropTypes.number,
-    skillLevel: PropTypes.number,
-    gameType: PropTypes.number,
+    game_type: PropTypes.shape({
+      id: PropTypes.number,
+      label: PropTypes.string,
+    }),
   }),
 };
 
-GameForm.propTypes = {
-  user: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
 GameForm.defaultProps = {
-  obj: initialState,
+  gameObj: initialState,
 };
 
 export default GameForm;
